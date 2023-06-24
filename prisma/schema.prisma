@@ -1,0 +1,35 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  guitar
+  bass
+  keyboard
+  drums
+  trumpet
+  singer
+}
+
+model User {
+  id         Int    @id @default(autoincrement())
+  email      String @unique
+  username   String @unique
+  hash       String
+  instrument Role?
+  bands      Band[]
+}
+
+model Band {
+  id      Int    @id @default(autoincrement())
+  name    String
+  members User[]
+}
